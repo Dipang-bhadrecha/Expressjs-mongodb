@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // MongoDB Atlas connection string
-const uri = "mongodb+srv://Knowmadic:Reva%40369@octoberproject.2qtbfvy.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://Knowmadic:Reva%40369@cluster0.h9o9mq6.mongodb.net/";
 
 // Create a function to establish the database connection
 async function connectToDatabase() {

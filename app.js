@@ -1,14 +1,26 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
-const connectToDatabase = require('./database/db')// Import the database connection function
+const connectToDatabase = require('./database/db')
 
-// Middleware to parse JSON requests
+const authRoutes = require('./api/routes/authRoutes')
+const userRoutes = require('./api/routes/userRoutes')
+const productRoutes = require('./api/routes/productRoutes')
+
 app.use(express.json());
 
 connectToDatabase();
 
-// Define your routes and controllers here
+
+app.use('api/', authRoutes) 
+app.use('api/', userRoutes)
+app.use('api/', userRoutes)
+app.use('/api', productRoutes) // createProduct
+app.use('/api/', productRoutes)// productDetails
+
+
+
+
 
 
 // Start the Express server
