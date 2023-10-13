@@ -16,9 +16,13 @@ const development = {
     JWT_KEY: process.env.JWT_KEY || '',
     APP_ID: process.env.APP_ID || '',
     API_KEY: process.env.API_KEY || '',
-    FIREBASE_SERVER_KEY: process.env.FIREBASE_SERVER_KEY
+    FIREBASE_SERVER_KEY: process.env.FIREBASE_SERVER_KEY,
+
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || 'your-google-client-id',
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || 'your-google-client-secret',
+    GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:4000/auth',
 
 
 }
 
-module.exports = development
+module.exports = development    

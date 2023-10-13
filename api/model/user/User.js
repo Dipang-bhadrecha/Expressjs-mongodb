@@ -33,7 +33,14 @@ const userSchema = new mongoose.Schema({
   },
   reset_password_token_expire_time:{
     type: Date,
+  },
+  otp: {
+    type: String,
+  },
+  otpExpiration: {
+    type: Date,
   }
+
 });
 
 module.exports = mongoose.model("user", userSchema);
