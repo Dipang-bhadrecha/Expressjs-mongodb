@@ -5,6 +5,9 @@ const { HttpException } = require('express-exception-handler');
 const User = require("../../model/user/User");
 const statusCode = require("../../helper/statusCode");
 const { ObjectId } = require("mongoose").Types;
+const config = require('../../../config')
+const jwtConstants = require('../../helper/constants')
+const EmailService = require('../../helper/emailService')
 // const AsymmetricEncrypt = require("../../middleware/encryptionMiddleware");
 // const User = require("../../model/user/User");
 
@@ -83,8 +86,9 @@ exports.loginUser = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-
+   
     res.json({ token });
+    // res.cookie('user', user, { maxAge: 900000, httpOnly: true });
   } catch (error) {
     console.log(error);
     res
@@ -93,11 +97,18 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+// LOGOUT
+exports.logoutUser = (req, res) => {
+  res.clearCookie("jwtToken"); // If using cookies
+
+  res.status(200).json({ message: "Logged out successfully" });
+};
 
 // FORGOT_PASSWORD
-exports.forgotPassword = async (email, req) => {
-  
+exports.forgotPassword = async (req, res) => {
   try {
+    const { email } = req.body;
+
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -119,27 +130,23 @@ exports.forgotPassword = async (email, req) => {
       { resetPasswordToken: token, resetPasswordExpires: expireTime }
     );
 
-    const resetPasswordLink = `${req.protocol}://${req.get(
-      'host'
-    )}/auth/password-reset/${token}`;
+    const resetPasswordLink = `${req.protocol}://${req.get('host')}/auth/password-reset/${token}`;
 
-    const res = await EmailService.sendEmail(
+    // Assuming EmailService.sendEmail returns a promise
+    const emailResponse = await EmailService.sendEmail(
       userEmailid,
       'Reset Password link',
       resetPasswordLink
     );
 
-    if (!res.response) {
-      throw new NotFoundException(EMAIL_NOT_FOUND);
+    if (!emailResponse) {
+      return res.status(404).json({message: messages.EMAIL_NOT_FOUND})
     }
 
-    return {
-      statusCode: 201,
-      message: FORGOT_PASSWORD_SENT,
-    };
+    return res.status(201).json({ messages:messages.FORGOT_PASSWORD_SENT });
   } catch (error) {
     console.error(error);
-    return res.status().json({ messages: messages.SERVER_ERROR_USER_UPDATE});
+    return res.status(500).json({ message: messages.SERVER_ERROR_USER_UPDATE });
   }
 };
 
@@ -178,20 +185,14 @@ exports.changePassword = async (req, res) => {
   }
 };
 
+//ACCESS_CONTROL
+
+// encryption decryption password
+// Social Login
+
 //sending_Otp
 
 
-// LOGOUT
-
-
-
-// rolebased login
-// userProfile Update
-// Social Login
-// token refresh
-// access control
 //account activation/ deactivation
-
-
-// update user
-
+// userProfile Update
+// token refresh

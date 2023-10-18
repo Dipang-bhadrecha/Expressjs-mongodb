@@ -13,7 +13,8 @@ const messages = {
   TOKEN_NOT_VERIIFIED: "Token not provided",
   INVALID_TOKEN: "Invalid token",
   PROFILE_IMAGE_REQUIRED: "profile image is required",
-  EMAIL_NOT_FOUND: "email not found"
+  EMAIL_NOT_FOUND: "email not found",
+  FORGOT_PASSWORD_SENT: 'Password reset email sent successfully'
 };
 
 module.exports = messages;

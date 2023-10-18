@@ -25,13 +25,13 @@ const userSchema = new mongoose.Schema({
   profileImage: {
     type: String,
   },
-  reset_password_token:{
-    type:String
+  reset_password_token: {
+    type: String
   },
-  path:{
+  path: {
     type: String,
   },
-  reset_password_token_expire_time:{
+  reset_password_token_expire_time: {
     type: Date,
   },
   otp: {
@@ -39,8 +39,12 @@ const userSchema = new mongoose.Schema({
   },
   otpExpiration: {
     type: Date,
+  },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user',
   }
-
 });
 
 module.exports = mongoose.model("user", userSchema);
