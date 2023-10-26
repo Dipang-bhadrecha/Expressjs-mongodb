@@ -5,28 +5,23 @@ require('dotenv').config();
 const port = process.env.PORT || 3000;
 const connectToDatabase = require('./database/db')
 
-// Import your route
-
 // const passport = require('passport');
 
-const authRoutes = require('./api/routes/authRoutes')
-const userRoutes = require('./api/routes/userRoutes')
+// Import your route
+const authRoutes = require('./api/routes/authRoutes');
+const userRoutes = require('./api/routes/userRoutes');
 const productRoutes = require('./api/routes/productRoutes');
-// const oauthRoutes = require('./api/routes/oauthRoutes')
-// const emailRoutes = require('./api/routes/emailRoutes');
-
+const adminRoutes = require('./api/routes/adminRouter');
 
 app.use(express.json());
 connectToDatabase();
 
 
 //Use specific endpoints for each routes
-
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
-// app.use('/api/email', emailRoutes);
-// app.use('/api/Oauth', oauthRoutes);
+app.use('/api/admin', adminRoutes);
 
 
 

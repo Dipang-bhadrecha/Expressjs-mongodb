@@ -14,7 +14,9 @@ const messages = {
   INVALID_TOKEN: "Invalid token",
   PROFILE_IMAGE_REQUIRED: "profile image is required",
   EMAIL_NOT_FOUND: "email not found",
-  FORGOT_PASSWORD_SENT: 'Password reset email sent successfully'
+  FORGOT_PASSWORD_SENT: 'Password reset email sent successfully',
+  ADIMN_ALREADY_EXISTS: "Username already exists",
+  ADMIN_REGISTRATION_SUCCESS: "Admin registration successfully",
 };
 
 module.exports = messages;

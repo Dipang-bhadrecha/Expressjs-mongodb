@@ -45,7 +45,7 @@ exports.registerUser = async (req, res) => {
       password: hashedPassword,
       phone,
       profileImage,
-      // path: req.file.path
+      role: "user"
     });
 
     await newUser.save();
@@ -82,13 +82,19 @@ exports.loginUser = async (req, res) => {
         .status(statusCode.Unauthorized)
         .json({ message: messages.INVALID_PAASWORD_CREDENTIAL });
     }
+
+    if (user.role !== "user") {
+      return res
+        .status(statusCode.Forbidden)
+        .json({ message: "You are not authorized for this role" });
+    }
+
     // Generate a JWT token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
    
-    res.json({ token });
-    // res.cookie('user', user, { maxAge: 900000, httpOnly: true });
+    res.json({ token});
   } catch (error) {
     console.log(error);
     res
@@ -187,6 +193,7 @@ exports.changePassword = async (req, res) => {
 
 //ACCESS_CONTROL
 
+
 // encryption decryption password
 // Social Login
 
@@ -196,3 +203,5 @@ exports.changePassword = async (req, res) => {
 //account activation/ deactivation
 // userProfile Update
 // token refresh
+
+// token based roleGuard
